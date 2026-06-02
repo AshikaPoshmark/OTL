@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTL Expiry Analysis — Executive Report</title>
+<style>
+  :root {
+    --navy:   #1E2761;
+    --navy-light: #2d3a8c;
+    --ice:    #CADCFC;
+    --ice-light: #eaf0fd;
+    --coral:  #F96167;
+    --coral-light: #fde8e9;
+    --white:  #FFFFFF;
+    --gray:   #f5f6fa;
+    --text:   #1a1a2e;
+    --muted:  #6b7280;
+    --green-light: #d1fae5;
+    --green:  #059669;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f8;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── Navigation ─────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--navy);
+    color: var(--white);
+    padding: 0 2rem;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 52px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; color: var(--coral); flex-shrink: 0; }
+  nav a { color: var(--ice); text-decoration: none; font-size: 13px; padding: 4px 0; flex-shrink: 0; }
+  nav a:hover { color: var(--white); }
+
+  /* ── Layout ─────────────────────────────────── */
+  .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ── Hero ───────────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+    border-radius: 16px;
+    padding: 3rem 3rem 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .hero .tag {
+    display: inline-block;
+    background: var(--coral);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: .6rem; }
+  .hero p.sub { color: var(--ice); font-size: 1.05rem; margin-bottom: 2rem; }
+  .hero .meta { color: #9ba8cc; font-size: 13px; margin-bottom: 2rem; }
+
+  .stat-row { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .stat-box {
+    background: rgba(202,220,252,.12);
+    border: 1px solid rgba(202,220,252,.25);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    flex: 1;
+    min-width: 160px;
+  }
+  .stat-box .num { font-size: 2rem; font-weight: 800; color: var(--coral); line-height: 1; }
+  .stat-box .lbl { font-size: 12px; color: var(--ice); margin-top: 4px; }
+
+  /* ── Sections ───────────────────────────────── */
+  section { margin-bottom: 2.5rem; }
+
+  .section-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    border-left: 4px solid var(--coral);
+  }
+
+  h2.section-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1.4rem;
+    padding-bottom: .6rem;
+    border-bottom: 2px solid var(--ice);
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  h2.section-title .icon {
+    width: 28px; height: 28px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; flex-shrink: 0;
+  }
+
+  h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: .6rem; }
+
+  /* ── Two-col layout ─────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; }
+  @media(max-width: 700px) {
+    .two-col, .three-col { grid-template-columns: 1fr; }
+  }
+
+  /* ── Info card ──────────────────────────────── */
+  .info-card {
+    background: var(--gray);
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    border-top: 3px solid var(--navy);
+  }
+  .info-card.coral-top { border-top-color: var(--coral); }
+  .info-card.ice-top   { border-top-color: var(--ice); }
+  .info-card.green-top { border-top-color: var(--green); }
+  .info-card ul { padding-left: 1.2rem; font-size: 14px; color: #374151; }
+  .info-card ul li { margin-bottom: .35rem; }
+
+  /* ── Profile grid ───────────────────────────── */
+  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .profile-card {
+    background: var(--gray);
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    border-left: 4px solid var(--navy);
+  }
+  .profile-card .big-num { font-size: 2.2rem; font-weight: 800; color: var(--coral); line-height: 1; }
+  .profile-card .big-lbl { font-size: 12px; color: var(--muted); margin-bottom: .6rem; }
+  .profile-card p { font-size: 13px; color: #374151; }
+
+  /* ── Tables ─────────────────────────────────── */
+  .table-wrap { overflow-x: auto; margin-top: 1rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead tr { background: var(--navy); color: var(--white); }
+  thead th { padding: 10px 14px; text-align: left; font-weight: 600; font-size: 13px; }
+  tbody tr { border-bottom: 1px solid #e5e7eb; }
+  tbody tr:nth-child(even) { background: var(--ice-light); }
+  tbody td { padding: 9px 14px; }
+  tbody tr:hover { background: #dde8fc; }
+
+  tr.highlight-coral td { background: var(--coral-light) !important; font-weight: 600; }
+  tr.highlight-navy td  { background: var(--navy) !important; color: var(--white) !important; font-weight: 600; }
+  tr.highlight-green td { background: var(--green-light) !important; }
+  tr.highlight-total td { background: #1e2761 !important; color: white !important; font-weight: 700; }
+
+  .table-note {
+    background: var(--ice-light);
+    border-left: 3px solid var(--navy);
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--navy);
+    margin-top: .6rem;
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* ── Callout boxes ──────────────────────────── */
+  .callout {
+    border-radius: 10px;
+    padding: 1rem 1.4rem;
+    margin-top: 1rem;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .callout.navy  { background: var(--navy);   color: var(--white); }
+  .callout.coral { background: var(--coral-light); border-left: 4px solid var(--coral); color: var(--text); }
+  .callout.ice   { background: var(--ice-light); border-left: 4px solid var(--navy);  color: var(--text); }
+  .callout.green { background: var(--green-light); border-left: 4px solid var(--green); color: var(--text); }
+  .callout strong { display: block; margin-bottom: .25rem; font-size: 15px; }
+
+  /* ── Big stats inline ───────────────────────── */
+  .inline-stats { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: 1rem 0; }
+  .inline-stat {
+    background: var(--ice-light);
+    border-radius: 10px;
+    padding: .8rem 1.2rem;
+    text-align: center;
+    min-width: 120px;
+    flex: 1;
+  }
+  .inline-stat .n { font-size: 1.6rem; font-weight: 800; color: var(--coral); }
+  .inline-stat .l { font-size: 12px; color: var(--muted); }
+
+  /* ── Step list ──────────────────────────────── */
+  .steps { counter-reset: step; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+  @media(max-width: 700px){ .steps { grid-template-columns: 1fr; } }
+  .step {
+    display: flex; gap: .8rem; align-items: flex-start;
+    background: var(--gray); border-radius: 8px; padding: .9rem 1rem;
+  }
+  .step-num {
+    background: var(--navy); color: var(--white);
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .step-body { font-size: 13px; }
+  .step-body strong { color: var(--navy); display: block; margin-bottom: 2px; }
+
+  /* ── Funnel visual ──────────────────────────── */
+  .funnel {
+    display: flex; flex-direction: column; gap: .5rem; margin-top: 1rem;
+  }
+  .funnel-row {
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .funnel-bar-wrap { flex: 1; }
+  .funnel-bar {
+    height: 34px; border-radius: 4px;
+    display: flex; align-items: center; padding: 0 12px;
+    font-size: 13px; font-weight: 600; color: var(--white);
+    transition: width .3s;
+  }
+  .funnel-label { width: 260px; font-size: 13px; color: var(--text); flex-shrink: 0; text-align: right; }
+  .funnel-pct { width: 60px; font-size: 13px; font-weight: 700; color: var(--navy); flex-shrink: 0; }
+
+  /* ── Rec cards ──────────────────────────────── */
+  .rec-card {
+    background: var(--white);
+    border: 2px solid var(--ice);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .rec-card .rec-header {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 8px;
+    padding: .6rem 1rem;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .rec-card .rec-header span { background: var(--coral); border-radius: 50%; width: 24px; height: 24px; display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0; }
+  .rec-card ul { padding-left: 1.2rem; font-size: 13.5px; }
+  .rec-card ul li { margin-bottom: .4rem; }
+  .rec-card .implied { background: var(--coral-light); border-radius: 6px; padding: .5rem .8rem; margin-top: .8rem; font-size: 13px; font-weight: 600; color: var(--coral); }
+
+  /* ── Footer ─────────────────────────────────── */
+  footer {
+    background: var(--navy);
+    color: var(--ice);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 13px;
+    margin-top: 3rem;
+  }
+
+  /* ── Badges ─────────────────────────────────── */
+  .badge {
+    display: inline-block;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 8px; border-radius: 12px;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .badge.primary { background: var(--coral); color: white; }
+  .badge.secondary { background: var(--navy); color: white; }
+
+  .section-divider { border: none; border-top: 2px solid var(--ice); margin: 2rem 0; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="brand">OTL Analysis</span>
+  <a href="#summary">Summary</a>
+  <a href="#context">Context</a>
+  <a href="#methodology">Methodology</a>
+  <a href="#outcomes">Outcomes</a>
+  <a href="#awareness">Awareness</a>
+  <a href="#profile">Buyer Profile</a>
+  <a href="#fatigue">Fatigue vs Reach</a>
+  <a href="#funnel">Conv. Funnel</a>
+  <a href="#mylikes">My Likes</a>
+  <a href="#listing">Listing Page</a>
+  <a href="#purchase">Purchase</a>
+  <a href="#recs">Recommendations</a>
+  <a href="#opportunity">Opportunity</a>
+  <a href="#appendix">Appendix</a>
+</nav>
+
+<div class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tag">Executive Report</div>
+  <h1>OTL Expiry Analysis:<br>Why Offers Go Unseen</h1>
+  <p class="sub">Understanding the 82% Expiry Rate &amp; the Path to Recovery</p>
+  <p class="meta">Analysis Period: May 10–16, 2026 &nbsp;|&nbsp; US Market &nbsp;|&nbsp; Poshmark</p>
+  <div class="stat-row">
+    <div class="stat-box"><div class="num">82.73%</div><div class="lbl">OTL Expiry Rate</div></div>
+    <div class="stat-box"><div class="num">7.31M</div><div class="lbl">Truly Unaware Active Buyers</div></div>
+    <div class="stat-box"><div class="num">941K</div><div class="lbl">Buyers on Listing Page During Active OTL</div></div>
+    <div class="stat-box"><div class="num">~50-100K</div><div class="lbl">Implied Additional Orders/Week</div></div>
+  </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<section id="summary">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">★</span>Executive Summary</h2>
+    <div style="display:flex;flex-direction:column;gap:.8rem;">
+      <div class="callout coral">
+        <strong>🔴 Scale of the problem</strong>
+        82.73% of all US OTLs expire without any buyer response — representing 21.7M missed opportunities in a single week across a platform that sends ~4.5M OTLs per day.
+      </div>
+      <div class="callout coral">
+        <strong>🔴 The reach gap</strong>
+        7.31M buyers were ACTIVE on the platform during their offer window but had zero awareness — no push delivered, no offer page views of any kind. These are not disengaged users.
+      </div>
+      <div class="callout ice">
+        <strong>✅ Buyer quality is not the issue</strong>
+        95.8% of truly unaware buyers have purchased on Poshmark before. 77% have specifically bought via OTL in the last 4 years. This is a distribution failure, not a buyer intent problem.
+      </div>
+      <div class="callout ice">
+        <strong>✅ Buyers are already on the listing</strong>
+        941K buyers (12.9%) viewed the specific listing detail page within 24hrs of their OTL — they were on the page, saw full price, and left without knowing a discounted offer existed for them.
+      </div>
+      <div class="callout navy">
+        <strong>⚠️ Without intervention, listings go unsold</strong>
+        Only 0.09% of truly unaware buyers purchased the same listing within 7 days without any intervention. The OTL discount is the primary — and almost only — conversion mechanism for this segment.
+      </div>
+      <div class="callout green">
+        <strong>💡 Recommendation</strong>
+        Surface active OTL discount badges on the <strong>Listing Detail Page</strong> (primary: 941K/week) and <strong>My Likes page</strong> (secondary: 371K/week) — two passive, non-intrusive surfaces where buyers are already engaging with their liked items. No new notifications needed.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXT -->
+<section id="context">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">1</span>Context &amp; Problem Statement</h2>
+    <div class="two-col">
+      <div class="info-card">
+        <h3>What is OTL?</h3>
+        <ul>
+          <li>OTL (Offer to Likers) = seller-initiated discounted offer sent to all buyers who liked a listing</li>
+          <li>Offer expires in <strong>24 hours</strong> if the buyer doesn't respond</li>
+          <li><strong>97%</strong> of all daily offers on Poshmark are OTLs (~4.5M OTLs/day)</li>
+          <li>Buyer can: accept, counter-offer, or reject</li>
+          <li><strong>Smart Sell V2</strong>: auto-sends OTLs within minutes of a like — 17.3% of all OTLs</li>
+        </ul>
+      </div>
+      <div class="info-card coral-top">
+        <h3>The Problem</h3>
+        <ul>
+          <li><strong>82.73%</strong> expire without any buyer response</li>
+          <li>Only <strong>1.57%</strong> convert to orders overall</li>
+          <li>1% lift in first buyer response = <strong>~45K additional responses/day</strong></li>
+          <li>Root cause was unknown: are buyers actively ignoring offers, or genuinely never seeing them?</li>
+          <li>This analysis answers that question definitively</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout ice" style="margin-top:1rem;">
+      <strong>Key distinction</strong>
+      "Saw it and ignored it" requires a different intervention than "never knew it existed." This analysis separates the two — and finds that the dominant problem is awareness, not intent.
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">2</span>Methodology</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1.2rem;">Period: May 10–16, 2026 &nbsp;|&nbsp; US buyers only &nbsp;|&nbsp; Source: <code>analytics_scratch.ashika_seller_otl_offer</code></p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Measure the problem</strong>Quantify expired OTL rate, outcome distribution, and order funnel</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Activity check</strong>Were buyers active during the 24hr offer window? (dw_user_events_daily)</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Awareness classification</strong>Push metrics, news tab, my offers, offer detail page — classify every expired OTL</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Define "Truly Unaware"</strong>Active buyer + no push delivered + no offer page views during 24hr window</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Buyer profiling</strong>Activation status, OTL purchase history, joining cohort, SS vs Non-SS segmentation</div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-body"><strong>Concurrent OTL volume</strong>Per-offer inbox volume proxy — distinguish fatigue from pure reach failure</div></div>
+      <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Conversion funnel</strong>Entry channel → Offer Detail Page → Order across all US OTLs</div></div>
+      <div class="step"><div class="step-num">8</div><div class="step-body"><strong>My Likes &amp; listing intent</strong>Did truly unaware buyers visit My Likes or the listing page during/after the offer window?</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OTL OUTCOMES -->
+<section id="outcomes">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">3</span>OTL Outcome Distribution — US, May 10–16</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Total US OTLs: <strong>21,660,432</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Outcome</th><th>Count</th><th>% of Total</th></tr></thead>
+        <tbody>
+          <tr class="highlight-coral"><td>🔴 Expired — no buyer response</td><td>17,903,123 Non-SS &nbsp;+&nbsp; 3,757,309 SS</td><td><strong>82.73%</strong></td></tr>
+          <tr><td>Closed by seller</td><td>3,277,855</td><td>15.14%</td></tr>
+          <tr><td>Order (accepted)</td><td>288,004</td><td>1.33%</td></tr>
+          <tr><td>Rejected by buyer</td><td>134,293</td><td>0.62%</td></tr>
+          <tr><td>Obsolete (buyer counter-offer)</td><td>140,792</td><td>0.65%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-note">💡 61.1% of buyer counters (Obsolete state) eventually convert to orders — making the effective order rate closer to 1.73% when counters are included.</div>
+  </div>
+</section>
+
+<!-- AWARENESS BREAKDOWN -->
+<section id="awareness">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">4</span>Awareness Breakdown — 21.7M Expired US OTLs</h2>
+
+    <!-- STEP 1: Activity during the 24hr window -->
+    <h3 style="color:var(--navy);margin-bottom:.7rem;font-size:1.05rem;">
+      Step 1 — Were buyers active on Poshmark during the 24hr offer window?
+    </h3>
+    <p style="font-size:14px;color:#374151;margin-bottom:1rem;">
+      The first question is whether buyers were reachable at all. Using <code>dw_user_events_daily</code>, each buyer was checked for any valid active session specifically within their offer's 24hr window — from <strong>offer_date</strong> to <strong>offer_expiry_date</strong> (the exact period the OTL was live).
+    </p>
+
+    <div class="stat-row" style="margin-bottom:1.2rem;">
+      <div class="stat-box" style="background:var(--ice-light);border:1px solid var(--ice);">
+        <div class="num" style="color:var(--navy);font-size:1.6rem;">~16.7M</div>
+        <div class="lbl" style="color:var(--navy);">Active during their 24hr offer window — <strong>77.06%</strong></div>
+      </div>
+      <div class="stat-box" style="background:var(--coral-light);border:1px solid var(--coral);">
+        <div class="num" style="color:var(--coral);font-size:1.6rem;">~5.0M</div>
+        <div class="lbl" style="color:#c0392b;">Not active during their 24hr offer window — <strong>22.94%</strong></div>
+      </div>
+    </div>
+    <div class="callout ice" style="margin-bottom:1.5rem;">
+      <strong>Key finding:</strong> 77% of buyers whose OTL expired were active on Poshmark specifically during the 24hr window the offer was live. Inactivity explains only ~23% of expiries — the dominant problem is active buyers who still did not encounter the offer.
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- STEP 2: Offer awareness channels -->
+    <h3 style="color:var(--navy);margin-bottom:.7rem;font-size:1.05rem;">
+      Step 2 — For buyers active during the 24hr window, was the offer surfaced through any known channel?
+    </h3>
+    <p style="font-size:14px;color:#374151;margin-bottom:1rem;">
+      For each active buyer, we checked all channels through which a buyer could have encountered their OTL during the 24hr window. These are the <strong>three current notification flows</strong> and the <strong>offer detail page</strong> as the final confirmation of awareness:
+    </p>
+
+    <div class="three-col" style="margin-bottom:1.2rem;">
+      <div class="info-card" style="border-top:3px solid var(--coral);">
+        <h3>📲 Push Notification</h3>
+        <ul>
+          <li>Delivered to iOS or Android device</li>
+          <li>Buyer can click → lands on offer detail page</li>
+          <li>Eligibility: last active within 90 days + notifications enabled</li>
+          <li>Tracked via <code>dw_user_push_metrics</code></li>
+        </ul>
+      </div>
+      <div class="info-card" style="border-top:3px solid var(--navy);">
+        <h3>📰 News Tab</h3>
+        <ul>
+          <li>In-app feed showing offer activity</li>
+          <li>Buyer sees the OTL offer card in their feed</li>
+          <li>Can tap → goes to offer detail page</li>
+          <li>Tracked via <code>ashika_view_offer_from_news_tab</code></li>
+        </ul>
+      </div>
+      <div class="info-card" style="border-top:3px solid var(--navy);">
+        <h3>📁 My Offers / Active Offers</h3>
+        <ul>
+          <li>Account → Active Offers → My Offers inbox</li>
+          <li>Buyer explicitly browses their offers list</li>
+          <li>Can tap offer → offer detail page</li>
+          <li>Tracked via <code>ashika_my_offers_views</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout ice" style="margin-bottom:.8rem;">
+      <strong>Offer Detail Page = the final decision screen</strong>
+      All three awareness flows above converge at the same destination: the <strong>Offer Detail Page</strong> — the screen where the buyer sees the discounted price and can Accept, Counter, or Reject. A buyer who viewed this page for a specific offer is definitively confirmed as aware. This was tracked via <code>ashika_offer_details_views</code> (joined on <code>offer_id</code>). Any buyer with none of the above signals during the 24hr window is classified as <strong>"Truly Unaware."</strong>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- STEP 3: The awareness breakdown table -->
+    <h3 style="color:var(--navy);margin-bottom:.7rem;font-size:1.05rem;">
+      Step 3 — Awareness classification results
+    </h3>
+    <p style="font-size:14px;color:#374151;margin-bottom:1rem;">
+      Each expired OTL was classified by the highest-priority awareness signal the buyer had during the 24hr window. Priority order: <em>Offer detail page view &gt; Push clicked &gt; News tab &gt; My offers &gt; Push delivered (not clicked) &gt; No signal.</em>
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Segment</th><th>Count</th><th>% of Expired OTLs</th></tr></thead>
+        <tbody>
+          <tr style="background:#f8f9fb;"><td colspan="3" style="font-weight:700;color:var(--muted);font-size:12px;padding:6px 14px;letter-spacing:.5px;">NOT ACTIVE</td></tr>
+          <tr><td>&nbsp;&nbsp;Not active during their 24hr offer window</td><td>~5.0M</td><td>~22.94%</td></tr>
+          <tr style="background:#f8f9fb;"><td colspan="3" style="font-weight:700;color:var(--muted);font-size:12px;padding:6px 14px;letter-spacing:.5px;">ACTIVE — WITH AWARENESS SIGNAL</td></tr>
+          <tr><td>&nbsp;&nbsp;Push clicked (opened offer directly)</td><td>1,560,302</td><td>7.2%</td></tr>
+          <tr><td>&nbsp;&nbsp;Push delivered, not clicked</td><td>5,544,334</td><td>25.6%</td></tr>
+          <tr><td>&nbsp;&nbsp;Viewed offer detail page (no push)</td><td>2,207,653</td><td>10.2%</td></tr>
+          <tr><td>&nbsp;&nbsp;Viewed news tab during window (no push)</td><td>1,304,137</td><td>6.0%</td></tr>
+          <tr><td>&nbsp;&nbsp;Viewed my offers page during window (no push)</td><td>1,164,898</td><td>5.4%</td></tr>
+          <tr style="background:#f8f9fb;"><td colspan="3" style="font-weight:700;color:var(--muted);font-size:12px;padding:6px 14px;letter-spacing:.5px;">ACTIVE — NO AWARENESS SIGNAL</td></tr>
+          <tr class="highlight-navy"><td>&nbsp;&nbsp;⚠️ Truly Unaware — active but no push, no page view</td><td>7,309,543</td><td><strong>33.7%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout coral" style="margin-top:1rem;">
+      <strong>64% of active buyers received NO push notification at all</strong>
+      The reach infrastructure is failing the majority of active buyers. Of the 18.67M active buyers, only 7.1M (38%) received any push delivery. The remaining 11.99M active buyers had to discover the offer through in-app browsing alone — and most didn't.
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- STEP 4: Non-SS vs Smart Sell Split -->
+    <h3 style="color:var(--navy);margin-bottom:.7rem;font-size:1.05rem;">
+      Non-SS vs Smart Sell Split
+    </h3>
+    <p style="font-size:14px;color:#374151;margin-bottom:1rem;">
+      Smart Sell V2 fires OTLs within minutes of a like, capturing buyers at peak intent. Does this timing advantage translate into better awareness rates?
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>SS Type</th><th>Total Expired</th><th>Active Buyers</th><th>Active %</th><th>Truly Unaware</th><th>Truly Unaware % of Active</th></tr></thead>
+        <tbody>
+          <tr><td>Non-Smart Sell</td><td>17,903,123</td><td>15,324,265</td><td>85.6%</td><td>6,095,143</td><td>39.8%</td></tr>
+          <tr><td>Smart Sell</td><td>3,757,309</td><td>3,349,753</td><td>89.2%</td><td>1,214,400</td><td>36.3%</td></tr>
+          <tr class="highlight-total"><td><strong>Total</strong></td><td><strong>21,660,432</strong></td><td><strong>18,674,018</strong></td><td><strong>86.2%</strong></td><td><strong>7,309,543</strong></td><td><strong>39.1%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-note">SS buyers are slightly more active (89.2% vs 85.6%) — the timing advantage of firing OTLs immediately after a like keeps buyers engaged on the platform. However, the truly unaware rate is nearly identical between SS (36.3%) and Non-SS (39.8%). The reach gap is structural, not timing-related — fixing the timing alone (Smart Sell) does not solve the awareness problem.</div>
+  </div>
+</section>
+
+<!-- BUYER PROFILE -->
+<section id="profile">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">5</span>Truly Unaware Buyer Profile — 7.31M Offers</h2>
+
+    <div class="profile-grid" style="margin-bottom:1.5rem;">
+      <div class="profile-card">
+        <div class="big-num">95.8%</div>
+        <div class="big-lbl">Buyer Activation</div>
+        <p>7.0M have bought on Poshmark at least once. Only 4.2% (310K) have never purchased — this is overwhelmingly an experienced buyer base.</p>
+      </div>
+      <div class="profile-card">
+        <div class="big-num">77%</div>
+        <div class="big-lbl">OTL Purchase History</div>
+        <p>5.6M have specifically bought via OTL offer in the last 4 years. 15.5% (1.1M) bought via offer but not OTL. Only 7.6% (553K) have never bought via offer.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:.8rem;">Joining Cohort — Truly Unaware Buyers by Year Joined</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cohort</th><th>Non-SS Count</th><th>Non-SS %</th><th>SS Count</th><th>SS %</th><th>Never Bought via Offer</th></tr></thead>
+        <tbody>
+          <tr class="highlight-coral"><td><strong>≤ 2019 (7+ yr veterans)</strong></td><td>3,720,986</td><td>61.0%</td><td>735,883</td><td>60.6%</td><td>~2.8%</td></tr>
+          <tr><td>2020</td><td>514,397</td><td>8.4%</td><td>102,371</td><td>8.4%</td><td>4.5%</td></tr>
+          <tr><td>2021</td><td>433,172</td><td>7.1%</td><td>85,924</td><td>7.1%</td><td>6.7%</td></tr>
+          <tr><td>2022</td><td>391,687</td><td>6.4%</td><td>76,733</td><td>6.3%</td><td>10.7%</td></tr>
+          <tr><td>2023</td><td>304,508</td><td>5.0%</td><td>61,958</td><td>5.1%</td><td>13.8%</td></tr>
+          <tr><td>2024</td><td>276,441</td><td>4.5%</td><td>55,923</td><td>4.6%</td><td>17.8%</td></tr>
+          <tr><td>2025</td><td>284,200</td><td>4.7%</td><td>59,620</td><td>4.9%</td><td>25.4%</td></tr>
+          <tr><td>2026</td><td>169,752</td><td>2.8%</td><td>35,988</td><td>3.0%</td><td>58.5%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-note">61% of truly unaware offers belong to buyers who joined ≤2019 — platform veterans who likely have lower push opt-in rates and deeper OTL inbox volume. Cohort distribution is near-identical between SS and Non-SS.</div>
+  </div>
+</section>
+
+<!-- FATIGUE VS REACH -->
+<section id="fatigue">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">6</span>Is It Fatigue or a Reach Problem?</h2>
+    <p style="font-size:14px;margin-bottom:1rem;color:var(--muted);">Concurrent OTLs per buyer on the day their offer expired — <strong>Overall avg: 133 concurrent OTLs</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concurrent OTLs That Day</th><th>Count</th><th>%</th><th>Avg in Bucket</th><th>Signal</th></tr></thead>
+        <tbody>
+          <tr class="highlight-green"><td>0 — Only OTL that day</td><td>728,276</td><td>10.0%</td><td>0</td><td>✅ Pure reach failure</td></tr>
+          <tr class="highlight-green"><td>1–5</td><td>1,755,913</td><td>24.0%</td><td>2.6</td><td>✅ Low noise, reach failure</td></tr>
+          <tr><td>6–15</td><td>1,292,508</td><td>17.7%</td><td>9.7</td><td>Moderate</td></tr>
+          <tr><td>16–30</td><td>850,764</td><td>11.6%</td><td>22.1</td><td>Growing noise</td></tr>
+          <tr><td>31–50</td><td>567,917</td><td>7.8%</td><td>39.4</td><td>High volume</td></tr>
+          <tr class="highlight-coral"><td>51–100</td><td>667,989</td><td>9.1%</td><td>71.9</td><td>⚠️ Fatigue signal</td></tr>
+          <tr class="highlight-coral"><td>101+</td><td>1,446,176</td><td>19.8%</td><td>598.6</td><td>🔴 Super-liker fatigue</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="two-col" style="margin-top:1rem;">
+      <div class="callout green"><strong>34% (0–5 concurrent) = Pure reach failure</strong>These buyers had almost no competing OTLs. A push or badge would have worked. Highest ROI for any reach improvement.</div>
+      <div class="callout coral"><strong>20% (101+ concurrent, avg 598) = Fatigue</strong>Inbox is flooded. Reach fixes alone won't help — these super-likers need smarter targeting or volume caps.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONVERSION FUNNEL -->
+<section id="funnel">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">7</span>Two-Stage Conversion Funnel — All US OTLs</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Entry Channel → Offer Detail Page → Order &nbsp;|&nbsp; Total US OTLs: 26,530,943 &nbsp;|&nbsp; Total Orders: 415,559 &nbsp;|&nbsp; Overall Rate: 1.57%</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Entry Channel</th><th>Total OTLs</th><th>% Reached Offer Detail</th><th>Overall Order Rate</th><th>Order Rate at Decision Screen</th></tr></thead>
+        <tbody>
+          <tr><td>Push clicked</td><td>2,027,435</td><td>54.8%</td><td>3.24%</td><td>5.91%</td></tr>
+          <tr><td>News tab</td><td>2,416,131</td><td>34.9%</td><td>2.30%</td><td>6.59%</td></tr>
+          <tr class="highlight-coral"><td><strong>My offers (direct/proactive)</strong></td><td>2,010,801</td><td>28.7%</td><td><strong>3.48%</strong></td><td><strong>12.12%</strong></td></tr>
+          <tr><td>Push delivered, not clicked</td><td>6,818,024</td><td>23.4%</td><td>1.51%</td><td>6.46%</td></tr>
+          <tr><td>No awareness / other channels</td><td>13,258,552</td><td>12.4%</td><td>0.91%</td><td>7.40%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout navy" style="margin-top:1rem;">
+      <strong>Key insight: The decision screen has ~6% conversion regardless of entry channel</strong>
+      Once a buyer reaches the Offer Detail Page (where they can accept, counter, or reject), they convert at 5.9%–7.4% regardless of how they got there. The "My Offers (direct)" outlier at 12.12% reflects buyers who proactively sought out their offers — the highest-intent segment. The lever is not the channel itself, but getting buyers TO the decision screen.
+    </div>
+  </div>
+</section>
+
+<!-- MY LIKES FUNNEL -->
+<section id="mylikes">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">8</span>My Likes Page — Awareness Funnel</h2>
+    <p style="font-size:14px;margin-bottom:1rem;color:var(--muted);">How many truly unaware buyers interacted with My Likes during or after their offer window?</p>
+    <div class="two-col">
+      <div>
+        <h3 style="margin-bottom:.8rem;">Table 1 — 24-Hour Window (Offer Active Period)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Stage</th><th>Count</th><th>% of Total</th></tr></thead>
+            <tbody>
+              <tr><td>Total truly unaware OTLs</td><td>7,309,543</td><td>100%</td></tr>
+              <tr><td>Visited My Likes page</td><td>371,848</td><td>5.1%</td></tr>
+              <tr><td>&nbsp;&nbsp;└─ Clicked listing from My Likes</td><td>122,774</td><td>1.7%</td></tr>
+              <tr class="highlight-coral"><td>&nbsp;&nbsp;└─ On My Likes, missed listing <span class="badge primary">BADGE GAP</span></td><td>359,211</td><td><strong>4.9%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:.8rem;">Table 2 — 7-Day Window (Including Post-Expiry)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Stage</th><th>Count</th><th>% of Total</th></tr></thead>
+            <tbody>
+              <tr><td>Total truly unaware OTLs</td><td>7,309,543</td><td>100%</td></tr>
+              <tr><td>Visited My Likes page</td><td>892,759</td><td>12.2%</td></tr>
+              <tr><td>&nbsp;&nbsp;└─ Clicked listing from My Likes</td><td>233,863</td><td>3.2%</td></tr>
+              <tr class="highlight-green"><td>&nbsp;&nbsp;└─ Incremental days 2–7 (post-expiry)</td><td>111,089</td><td>1.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="callout ice" style="margin-top:1rem;">
+      <strong>Three distinct segments to act on:</strong><br>
+      <strong>359K (4.9%)</strong> — on My Likes during the offer window but scrolled past the listing → badge opportunity<br>
+      <strong>122K (1.7%)</strong> — clicked to the listing from My Likes while OTL was active, but offer not surfaced → listing page banner<br>
+      <strong>111K (1.5%)</strong> — returned to listing via My Likes after expiry → expired offer badge for re-engagement
+    </div>
+  </div>
+</section>
+
+<!-- LISTING DETAIL PAGE -->
+<section id="listing">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">9</span>Listing Detail Page — The Biggest Missed Surface</h2>
+
+    <div class="two-col" style="margin-bottom:1.5rem;align-items:start;">
+      <div>
+        <h3 style="margin-bottom:.8rem;">Table 3 — Listing Detail Views (24hr window)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Metric</th><th>Count</th><th>% of Truly Unaware</th></tr></thead>
+            <tbody>
+              <tr><td>Total truly unaware OTLs</td><td>7,309,543</td><td>100%</td></tr>
+              <tr class="highlight-coral"><td><strong>Viewed listing detail page (24hr)</strong></td><td><strong>941,471</strong></td><td><strong>12.9%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:.8rem;">Table 4 — Listing Detail Views (7-day window)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Metric</th><th>Count</th><th>% of Truly Unaware</th></tr></thead>
+            <tbody>
+              <tr><td>Total truly unaware OTLs</td><td>7,309,543</td><td>100%</td></tr>
+              <tr class="highlight-coral"><td><strong>Viewed listing detail page (7-day)</strong></td><td><strong>1,024,083</strong></td><td><strong>14.0%</strong></td></tr>
+              <tr><td>Incremental days 2–7</td><td>82,612</td><td>1.1%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="inline-stats">
+      <div class="inline-stat"><div class="n">941K</div><div class="l">On listing page (24hr)</div></div>
+      <div class="inline-stat"><div class="n">2.5×</div><div class="l">More than My Likes visitors</div></div>
+      <div class="inline-stat"><div class="n">92%</div><div class="l">Of views within first 24hrs</div></div>
+      <div class="inline-stat"><div class="n">~0%</div><div class="l">Bought same listing anyway</div></div>
+    </div>
+
+    <div class="callout navy" style="margin-top:1rem;">
+      <strong>941K buyers were on the listing page while an active OTL existed for them</strong>
+      They arrived via search, category browsing, social sharing, and other organic paths. They saw the full listing price and left — without ever knowing a discounted offer existed specifically for them. A simple banner — <em>"Active offer available: $199 → $165 (17% off)"</em> — would have caught them at peak intent, regardless of entry path.
+    </div>
+  </div>
+</section>
+
+<!-- PURCHASE BEHAVIOR -->
+<section id="purchase">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">10</span>Purchase Behavior — Did They Buy the Listing Anyway?</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1rem;">Table 5 — Same listing purchases within 7 days, without any intervention</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Purchase Path</th><th>Count</th><th>% of Truly Unaware OTLs</th></tr></thead>
+        <tbody>
+          <tr><td>Bought same listing — via new offer (7d)</td><td>5,958</td><td>0.08%</td></tr>
+          <tr><td>Bought same listing — via Buy Now (7d)</td><td>269</td><td>~0%</td></tr>
+          <tr class="highlight-green"><td>Total bought same listing (either path)</td><td>6,227</td><td>0.09%</td></tr>
+          <tr class="highlight-coral"><td><strong>Did NOT purchase the listing</strong></td><td><strong>7,303,316</strong></td><td><strong>99.91%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-note">Note: "Bought via offer" is traced through offer_id → eppo_otl_offer_table → listing_id (listing-specific). "Buy Now" uses dw_order_items.listing_id (confirmed same-listing, not buyer-level noise).</div>
+
+    <div class="callout coral" style="margin-top:1rem;">
+      <strong>The OTL discount is the primary — and almost only — conversion mechanism for these buyers</strong>
+      Without the OTL reaching them, 99.91% of these listings go unsold within 7 days. These buyers do not come back and pay full price. The 269 Buy Now purchases out of 7.3M OTLs is essentially statistical noise — confirming that the OTL discount is what drives action, not organic browsing behavior alone.
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section id="recs">
+  <div class="section-card" style="background:var(--navy);border-left-color:var(--coral);">
+    <h2 class="section-title" style="color:var(--white);border-bottom-color:rgba(202,220,252,.3);">
+      <span class="icon" style="background:var(--coral);">💡</span>
+      <span style="color:white;">Recommendation: Surface Offers Where Buyers Already Are</span>
+    </h2>
+    <p style="color:var(--ice);font-size:14px;margin-bottom:1.5rem;">Two low-friction, non-intrusive surfaces — no new notifications, no additional OTL volume</p>
+    <div class="two-col">
+      <div class="rec-card">
+        <div class="rec-header"><span>1</span>Listing Detail Page Banner <span class="badge primary" style="margin-left:auto;">PRIMARY</span></div>
+        <ul>
+          <li><strong>Audience:</strong> 941K buyers/week already on the listing page during active OTL window</li>
+          <li><strong>What:</strong> "Active offer available: $199 → $165 (17% off)" banner or callout at top of listing</li>
+          <li><strong>Why primary:</strong> 2.5× larger audience than My Likes; catches buyers from ALL entry paths — search, browse, social, direct</li>
+          <li><strong>Conversion at decision screen:</strong> ~6–12% (from funnel data)</li>
+          <li><strong>92%</strong> of listing views happen within the first 24hrs (offer active window)</li>
+        </ul>
+        <div class="implied">💰 Implied additional orders: ~33K–56K/week</div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-header"><span>2</span>My Likes Discount Badge <span class="badge secondary" style="margin-left:auto;">SECONDARY</span></div>
+        <ul>
+          <li><strong>Audience:</strong> 371K (24hr) to 893K (7d) buyers browsing their liked items</li>
+          <li><strong>What:</strong> Discount chip on listing card — "17% off" or "$165 offer available"</li>
+          <li><strong>Design precedent:</strong> NWT and SOLD OUT badges already exist in this card slot</li>
+          <li><strong>Catches buyers before</strong> they even need to click to the listing</li>
+          <li><strong>Post-expiry:</strong> Show expired badge to prompt "Make an offer" (111K post-expiry clickers/week)</li>
+        </ul>
+        <div class="implied">💰 Implied additional orders: ~12.5K/week + 2.6K post-expiry</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPPORTUNITY SIZING -->
+<section id="opportunity">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">11</span>Opportunity Sizing — Weekly Incremental Orders</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Intervention</th><th>Target Audience</th><th>Conv. Rate Applied</th><th>Implied Orders/Week</th></tr></thead>
+        <tbody>
+          <tr class="highlight-coral"><td><strong>Listing detail page banner (24hr)</strong></td><td>941,471</td><td>3.48%–6%</td><td><strong>~33K–56K</strong></td></tr>
+          <tr><td>My Likes badge (24hr window)</td><td>359,211</td><td>3.48%</td><td>~12.5K</td></tr>
+          <tr><td>My Likes badge (7d post-expiry nudge)</td><td>111,089</td><td>2.30%</td><td>~2.6K</td></tr>
+          <tr class="highlight-green"><td>Fix push reach (0–5 concurrent OTL buyers)</td><td>2,484,189</td><td>1.51%–3.24%</td><td>~37K–80K</td></tr>
+          <tr class="highlight-total"><td><strong>Total (non-overlapping, conservative)</strong></td><td>—</td><td>—</td><td><strong>~50K–100K+/week</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-note">Conversion rates sourced from observed funnel data: my-offers-direct 3.48% overall; push clicked 3.24%; news tab 2.30%. Estimates are conservative and assume no overlap between segments.</div>
+
+    <div class="callout ice" style="margin-top:1rem;">
+      <strong>Priority order for implementation:</strong><br>
+      <strong>1st</strong> — Listing Detail Page banner: largest audience, highest-intent moment, no new infrastructure needed beyond reading active offer state<br>
+      <strong>2nd</strong> — Fix push eligibility for 0–5 concurrent OTL buyers: pure reach failure, high conversion expected<br>
+      <strong>3rd</strong> — My Likes badge: ambient discovery, lower urgency but compounds over time with return visits
+    </div>
+  </div>
+</section>
+
+<!-- APPENDIX -->
+<section id="appendix">
+  <div class="section-card">
+    <h2 class="section-title"><span class="icon">A</span>Appendix — Data Sources &amp; Table Reference</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Table</th><th>Description</th><th>Used For</th></tr></thead>
+        <tbody>
+          <tr><td><code>analytics_scratch.ashika_seller_otl_offer</code></td><td>All OTL offers with state, outcome, sequence</td><td>Base universe</td></tr>
+          <tr><td><code>analytics_scratch.eppo_otl_offer_table</code></td><td>OTL enrichment: listing_id, Smart Sell flag, offer chain</td><td>SS classification, listing join, order linkage</td></tr>
+          <tr><td><code>analytics.dw_users</code></td><td>User attributes: joined_at, buyer_activated_at, home_domain</td><td>US filter, buyer profile, cohort</td></tr>
+          <tr><td><code>analytics.dw_user_events_daily</code></td><td>Daily user activity flags</td><td>Active buyer classification</td></tr>
+          <tr><td><code>analytics.dw_user_push_metrics</code></td><td>iOS &amp; Android push delivery, clicks, eligibility</td><td>Push awareness signal</td></tr>
+          <tr><td><code>analytics_scratch.ashika_offer_details_views</code></td><td>Offer detail page views (offer_id, event_date)</td><td>Offer page awareness &amp; truly-unaware filter</td></tr>
+          <tr><td><code>analytics_scratch.ashika_view_offer_from_news_tab</code></td><td>News tab OTL offer views</td><td>News tab awareness signal</td></tr>
+          <tr><td><code>analytics_scratch.ashika_my_offers_views</code></td><td>My Offers page views (user_id, event_date)</td><td>My offers awareness signal</td></tr>
+          <tr><td><code>analytics_scratch.ashika_listing_details_page_views</code></td><td>Listing product page views (user_id, listing_id, event_date, views)</td><td>Listing intent signal — D7 &amp; D14</td></tr>
+          <tr><td><code>analytics_scratch.ashika_my_likes_page_views</code></td><td>My Likes page views (user_id, event_date)</td><td>My Likes funnel — stage 1</td></tr>
+          <tr><td><code>analytics_scratch.ashika_my_likes_listing_clicks</code></td><td>Clicks from My Likes to a listing (user_id, listing_id, event_date)</td><td>My Likes funnel — click-through attribution</td></tr>
+          <tr><td><code>analytics.dw_orders</code></td><td>Order data: buyer_id, offer_id, booked_at, is_valid_order</td><td>Purchase behavior (with-offer path)</td></tr>
+          <tr><td><code>analytics.dw_order_items</code></td><td>Order line items: order_id, buyer_id, listing_id</td><td>Purchase behavior (Buy Now / same-listing)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</div><!-- end .page -->
+
+<footer>
+  OTL Expiry Analysis &nbsp;|&nbsp; Analysis Period: May 10–16, 2026 &nbsp;|&nbsp; US Market &nbsp;|&nbsp; Poshmark &nbsp;|&nbsp; Prepared by Ashika
+</footer>
+
+</body>
+</html>
