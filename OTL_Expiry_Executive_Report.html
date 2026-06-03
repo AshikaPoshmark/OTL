@@ -297,7 +297,7 @@
   <a href="#fatigue">Fatigue vs Reach</a>
   <a href="#funnel">Conv. Funnel</a>
   <a href="#mylikes">My Likes</a>
-  <a href="#listing">Listing Page</a>
+
   <a href="#purchase">Purchase</a>
   <a href="#recs">Recommendations</a>
   <a href="#opportunity">Opportunity</a>
@@ -314,7 +314,7 @@
   <p class="meta">Analysis Period: May 10–16, 2026 &nbsp;|&nbsp; US Market &nbsp;|&nbsp; Poshmark</p>
   <div class="stat-row">
     <div class="stat-box"><div class="num">82.73%</div><div class="lbl">OTL Expiry Rate</div></div>
-    <div class="stat-box"><div class="num">7.31M</div><div class="lbl">Truly Unaware Active Buyers</div></div>
+    <div class="stat-box"><div class="num">4.92M</div><div class="lbl">Truly Unaware Active Buyers (24hr)</div></div>
     <div class="stat-box"><div class="num">941K</div><div class="lbl">Buyers on Listing Page During Active OTL</div></div>
     <div class="stat-box"><div class="num">~50-100K</div><div class="lbl">Implied Additional Orders/Week</div></div>
   </div>
@@ -331,11 +331,11 @@
       </div>
       <div class="callout coral">
         <strong>🔴 The reach gap</strong>
-        7.31M buyers were ACTIVE on the platform during their offer window but had zero awareness — no push delivered, no offer page views of any kind. These are not disengaged users.
+        5.76M buyers were ACTIVE on the platform during their specific 24hr offer window but had zero awareness — no push delivered, no offer page views of any kind. These are not disengaged users.
       </div>
       <div class="callout ice">
         <strong>✅ Buyer quality is not the issue</strong>
-        95.8% of truly unaware buyers have purchased on Poshmark before. 77% have specifically bought via OTL in the last 4 years. This is a distribution failure, not a buyer intent problem.
+        96.4% of truly unaware buyers have purchased on Poshmark before. 79.7% have specifically bought via OTL in the last 4 years. This is a distribution failure, not a buyer intent problem.
       </div>
       <div class="callout ice">
         <strong>✅ Buyers are already on the listing</strong>
@@ -440,16 +440,16 @@
 
     <div class="stat-row" style="margin-bottom:1.2rem;">
       <div class="stat-box" style="background:var(--ice-light);border:1px solid var(--ice);">
-        <div class="num" style="color:var(--navy);font-size:1.6rem;">~16.7M</div>
-        <div class="lbl" style="color:var(--navy);">Active during their 24hr offer window — <strong>77.06%</strong></div>
+        <div class="num" style="color:var(--navy);font-size:1.6rem;">16,315,759</div>
+        <div class="lbl" style="color:var(--navy);">Active during their 24hr offer window — <strong>76.7%</strong></div>
       </div>
       <div class="stat-box" style="background:var(--coral-light);border:1px solid var(--coral);">
-        <div class="num" style="color:var(--coral);font-size:1.6rem;">~5.0M</div>
-        <div class="lbl" style="color:#c0392b;">Not active during their 24hr offer window — <strong>22.94%</strong></div>
+        <div class="num" style="color:var(--coral);font-size:1.6rem;">4,947,733</div>
+        <div class="lbl" style="color:#c0392b;">Not active during their 24hr offer window — <strong>23.3%</strong></div>
       </div>
     </div>
     <div class="callout ice" style="margin-bottom:1.5rem;">
-      <strong>Key finding:</strong> 77% of buyers whose OTL expired were active on Poshmark specifically during the 24hr window the offer was live. Inactivity explains only ~23% of expiries — the dominant problem is active buyers who still did not encounter the offer.
+      <strong>Key finding:</strong> 76.7% of buyers whose OTL expired were active on Poshmark specifically during the 24hr window the offer was live. Inactivity explains only 23.3% of expiries — the dominant problem is active buyers who still did not encounter the offer.
     </div>
 
     <hr class="section-divider">
@@ -504,28 +504,35 @@
       Step 3 — Awareness classification results
     </h3>
     <p style="font-size:14px;color:#374151;margin-bottom:1rem;">
-      Each expired OTL was classified by the highest-priority awareness signal the buyer had during the 24hr window. Priority order: <em>Offer detail page view &gt; Push clicked &gt; News tab &gt; My offers &gt; Push delivered (not clicked) &gt; No signal.</em>
+      Each expired OTL was classified by the highest-priority awareness signal the buyer had during the 24hr window. Priority order: <em>Offer detail page &gt; Listing detail page &gt; Push clicked &gt; My offers &gt; News tab &gt; Push delivered (not clicked) &gt; No signal.</em>
+      <br><br>
+      <strong>New signal added:</strong> The listing detail page shows a <strong>"View Offer"</strong> button when an OTL is active. Buyers who viewed the listing page during the 24hr window had this button visible — classified here as a distinct awareness tier between offer detail and push.
     </p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Segment</th><th>Count</th><th>% of Expired OTLs</th></tr></thead>
         <tbody>
           <tr style="background:#f8f9fb;"><td colspan="3" style="font-weight:700;color:var(--muted);font-size:12px;padding:6px 14px;letter-spacing:.5px;">NOT ACTIVE</td></tr>
-          <tr><td>&nbsp;&nbsp;Not active during their 24hr offer window</td><td>~5.0M</td><td>~22.94%</td></tr>
+          <tr><td>&nbsp;&nbsp;Not active during their 24hr offer window</td><td>4,947,733</td><td>23.3%</td></tr>
           <tr style="background:#f8f9fb;"><td colspan="3" style="font-weight:700;color:var(--muted);font-size:12px;padding:6px 14px;letter-spacing:.5px;">ACTIVE — WITH AWARENESS SIGNAL</td></tr>
-          <tr><td>&nbsp;&nbsp;Push clicked (opened offer directly)</td><td>1,560,302</td><td>7.2%</td></tr>
-          <tr><td>&nbsp;&nbsp;Push delivered, not clicked</td><td>5,544,334</td><td>25.6%</td></tr>
-          <tr><td>&nbsp;&nbsp;Viewed offer detail page (no push)</td><td>2,207,653</td><td>10.2%</td></tr>
-          <tr><td>&nbsp;&nbsp;Viewed news tab during window (no push)</td><td>1,304,137</td><td>6.0%</td></tr>
-          <tr><td>&nbsp;&nbsp;Viewed my offers page during window (no push)</td><td>1,164,898</td><td>5.4%</td></tr>
+          <tr><td>&nbsp;&nbsp;i. &nbsp;&nbsp;Viewed offer detail page &nbsp;<span style="font-size:11px;color:var(--muted);">(tapped "View Offer" → decision screen)</span></td><td>3,795,393</td><td>17.8%</td></tr>
+          <tr class="highlight-coral"><td>&nbsp;&nbsp;ii. &nbsp;Viewed listing detail page &nbsp;<span style="font-size:11px;color:var(--coral);">"View Offer" button was visible — NEW SIGNAL</span></td><td>2,022,479</td><td><strong>9.5%</strong></td></tr>
+          <tr><td>&nbsp;&nbsp;iii.&nbsp; Push clicked</td><td>612,240</td><td>2.9%</td></tr>
+          <tr><td>&nbsp;&nbsp;iv. &nbsp;Viewed my offers page during 24hr window</td><td>2,229,905</td><td>10.5%</td></tr>
+          <tr><td>&nbsp;&nbsp;v. &nbsp;&nbsp;Viewed news tab during 24hr window</td><td>568,778</td><td>2.7%</td></tr>
+          <tr><td>&nbsp;&nbsp;vi. &nbsp;Push delivered, not clicked</td><td>2,168,177</td><td>10.2%</td></tr>
           <tr style="background:#f8f9fb;"><td colspan="3" style="font-weight:700;color:var(--muted);font-size:12px;padding:6px 14px;letter-spacing:.5px;">ACTIVE — NO AWARENESS SIGNAL</td></tr>
-          <tr class="highlight-navy"><td>&nbsp;&nbsp;⚠️ Truly Unaware — active but no push, no page view</td><td>7,309,543</td><td><strong>33.7%</strong></td></tr>
+          <tr class="highlight-navy"><td>&nbsp;&nbsp;⚠️ vii. Truly Unaware — active but no signal of any kind</td><td>4,918,787</td><td><strong>23.1%</strong></td></tr>
         </tbody>
       </table>
     </div>
     <div class="callout coral" style="margin-top:1rem;">
-      <strong>64% of active buyers received NO push notification at all</strong>
-      The reach infrastructure is failing the majority of active buyers. Of the 18.67M active buyers, only 7.1M (38%) received any push delivery. The remaining 11.99M active buyers had to discover the offer through in-app browsing alone — and most didn't.
+      <strong>Key: 2,022,479 buyers (9.5%) were on the listing page with "View Offer" visible — but did not tap it</strong>
+      This is a button visibility / prominence problem on the listing page. Nearly as many buyers visited the listing and ignored the button (9.5%) as those who tapped it and reached the decision screen (17.8%). Making the "View Offer" button more prominent — or adding a banner above it — is a direct, high-impact product intervention.
+    </div>
+    <div class="callout ice" style="margin-top:.8rem;">
+      <strong>The listing detail page is the #1 path to the offer decision screen</strong>
+      Of all offers that reached the offer detail page, 50.9% (1,932,979) came through the listing page → "View Offer" tap. More buyers discover the offer via the listing page than via push clicks or news tab combined.
     </div>
 
     <hr class="section-divider">
@@ -541,51 +548,55 @@
       <table>
         <thead><tr><th>SS Type</th><th>Total Expired</th><th>Active Buyers</th><th>Active %</th><th>Truly Unaware</th><th>Truly Unaware % of Active</th></tr></thead>
         <tbody>
-          <tr><td>Non-Smart Sell</td><td>17,903,123</td><td>15,324,265</td><td>85.6%</td><td>6,095,143</td><td>39.8%</td></tr>
-          <tr><td>Smart Sell</td><td>3,757,309</td><td>3,349,753</td><td>89.2%</td><td>1,214,400</td><td>36.3%</td></tr>
-          <tr class="highlight-total"><td><strong>Total</strong></td><td><strong>21,660,432</strong></td><td><strong>18,674,018</strong></td><td><strong>86.2%</strong></td><td><strong>7,309,543</strong></td><td><strong>39.1%</strong></td></tr>
+          <tr><td>Non-Smart Sell</td><td>17,554,724</td><td>13,290,773</td><td>75.7%</td><td>4,108,952</td><td>30.9%</td></tr>
+          <tr><td>Smart Sell</td><td>3,708,768</td><td>3,024,986</td><td>81.6%</td><td>809,861</td><td>26.8%</td></tr>
+          <tr class="highlight-total"><td><strong>Total</strong></td><td><strong>21,263,492</strong></td><td><strong>16,315,759</strong></td><td><strong>76.7%</strong></td><td><strong>4,918,813</strong></td><td><strong>30.1%</strong></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="table-note">SS buyers are slightly more active (89.2% vs 85.6%) — the timing advantage of firing OTLs immediately after a like keeps buyers engaged on the platform. However, the truly unaware rate is nearly identical between SS (36.3%) and Non-SS (39.8%). The reach gap is structural, not timing-related — fixing the timing alone (Smart Sell) does not solve the awareness problem.</div>
+    <div class="table-note">SS buyers are more active during their specific offer window (81.6% vs 75.7%) — Smart Sell fires within minutes of a like, catching buyers while they're still on the platform. With listing detail page now included as an awareness signal, the truly unaware gap widens: SS 26.8% vs Non-SS 30.9%. SS buyers are more likely to still be on the listing page when the OTL fires, capturing them via the "View Offer" button. Non-SS OTLs are sent later (often hours or days after the like), by which time buyers have typically left the listing page.</div>
   </div>
 </section>
 
 <!-- BUYER PROFILE -->
 <section id="profile">
   <div class="section-card">
-    <h2 class="section-title"><span class="icon">5</span>Truly Unaware Buyer Profile — 7.31M Offers</h2>
+    <h2 class="section-title"><span class="icon">5</span>Truly Unaware Buyer Profile — 4.92M Offers</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1.2rem;">
+      Total reduced from 7.31M to 4.92M after adding listing detail page as an awareness signal.
+      The ~2.4M buyers previously in this bucket were on the listing page with "View Offer" button visible — they are now classified separately.
+    </p>
 
     <div class="profile-grid" style="margin-bottom:1.5rem;">
       <div class="profile-card">
-        <div class="big-num">95.8%</div>
+        <div class="big-num">96.4%</div>
         <div class="big-lbl">Buyer Activation</div>
-        <p>7.0M have bought on Poshmark at least once. Only 4.2% (310K) have never purchased — this is overwhelmingly an experienced buyer base.</p>
+        <p>4.74M have bought on Poshmark at least once. Only 3.6% (177K) have never purchased — this is overwhelmingly an experienced buyer base.</p>
       </div>
       <div class="profile-card">
-        <div class="big-num">77%</div>
+        <div class="big-num">79.7%</div>
         <div class="big-lbl">OTL Purchase History</div>
-        <p>5.6M have specifically bought via OTL offer in the last 4 years. 15.5% (1.1M) bought via offer but not OTL. Only 7.6% (553K) have never bought via offer.</p>
+        <p>3.92M have specifically bought via OTL offer in the last 4 years. 13.8% (678K) bought via offer but not OTL. Only 6.5% (320K) have never bought via offer.</p>
       </div>
     </div>
 
     <h3 style="margin-bottom:.8rem;">Joining Cohort — Truly Unaware Buyers by Year Joined</h3>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Cohort</th><th>Non-SS Count</th><th>Non-SS %</th><th>SS Count</th><th>SS %</th><th>Never Bought via Offer</th></tr></thead>
+        <thead><tr><th>Cohort</th><th>Non-SS Count</th><th>Non-SS %</th><th>SS Count</th><th>SS %</th></tr></thead>
         <tbody>
-          <tr class="highlight-coral"><td><strong>≤ 2019 (7+ yr veterans)</strong></td><td>3,720,986</td><td>61.0%</td><td>735,883</td><td>60.6%</td><td>~2.8%</td></tr>
-          <tr><td>2020</td><td>514,397</td><td>8.4%</td><td>102,371</td><td>8.4%</td><td>4.5%</td></tr>
-          <tr><td>2021</td><td>433,172</td><td>7.1%</td><td>85,924</td><td>7.1%</td><td>6.7%</td></tr>
-          <tr><td>2022</td><td>391,687</td><td>6.4%</td><td>76,733</td><td>6.3%</td><td>10.7%</td></tr>
-          <tr><td>2023</td><td>304,508</td><td>5.0%</td><td>61,958</td><td>5.1%</td><td>13.8%</td></tr>
-          <tr><td>2024</td><td>276,441</td><td>4.5%</td><td>55,923</td><td>4.6%</td><td>17.8%</td></tr>
-          <tr><td>2025</td><td>284,200</td><td>4.7%</td><td>59,620</td><td>4.9%</td><td>25.4%</td></tr>
-          <tr><td>2026</td><td>169,752</td><td>2.8%</td><td>35,988</td><td>3.0%</td><td>58.5%</td></tr>
+          <tr class="highlight-coral"><td><strong>≤ 2019 (7+ yr veterans)</strong></td><td>2,553,556</td><td>62.1%</td><td>498,648</td><td>61.6%</td></tr>
+          <tr><td>2020</td><td>346,896</td><td>8.4%</td><td>69,125</td><td>8.5%</td></tr>
+          <tr><td>2021</td><td>286,727</td><td>7.0%</td><td>56,099</td><td>6.9%</td></tr>
+          <tr><td>2022</td><td>259,334</td><td>6.3%</td><td>50,024</td><td>6.2%</td></tr>
+          <tr><td>2023</td><td>200,407</td><td>4.9%</td><td>40,637</td><td>5.0%</td></tr>
+          <tr><td>2024</td><td>174,858</td><td>4.3%</td><td>35,364</td><td>4.4%</td></tr>
+          <tr><td>2025</td><td>182,679</td><td>4.4%</td><td>38,329</td><td>4.7%</td></tr>
+          <tr><td>2026</td><td>104,495</td><td>2.5%</td><td>21,635</td><td>2.7%</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="table-note">61% of truly unaware offers belong to buyers who joined ≤2019 — platform veterans who likely have lower push opt-in rates and deeper OTL inbox volume. Cohort distribution is near-identical between SS and Non-SS.</div>
+    <div class="table-note">~62% of truly unaware offers belong to buyers who joined ≤2019 — platform veterans with likely lower push opt-in rates and high OTL inbox volume. Cohort distribution is near-identical between SS and Non-SS, consistent with earlier analysis.</div>
   </div>
 </section>
 
@@ -593,24 +604,54 @@
 <section id="fatigue">
   <div class="section-card">
     <h2 class="section-title"><span class="icon">6</span>Is It Fatigue or a Reach Problem?</h2>
-    <p style="font-size:14px;margin-bottom:1rem;color:var(--muted);">Concurrent OTLs per buyer on the day their offer expired — <strong>Overall avg: 133 concurrent OTLs</strong></p>
+    <p style="font-size:14px;margin-bottom:.6rem;color:var(--muted);">
+      Buyer-level view — <strong>May 10, 2026 only</strong> (one complete day for clean buyer deduplication).
+      Concurrent OTL count per buyer = total OTLs they had on May 9 + May 10 (both days active in their 24hr inbox simultaneously).
+    </p>
+    <p style="font-size:13px;margin-bottom:1rem;color:var(--muted);">
+      Total distinct OTL buyers on May 10: <strong>1,186,108</strong> &nbsp;|&nbsp;
+      Expired OTL buyers: <strong>1,026,340 (86.5%)</strong> &nbsp;|&nbsp;
+      Truly unaware buyers: <strong>222,429 (21.7% of expired)</strong>
+    </p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Concurrent OTLs That Day</th><th>Count</th><th>%</th><th>Avg in Bucket</th><th>Signal</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Concurrent OTLs in Inbox</th>
+            <th>Total OTL Buyers</th>
+            <th>Expired OTL Buyers</th>
+            <th>Expired % of Total</th>
+            <th>Truly Unaware Buyers</th>
+            <th>Unaware % of Expired</th>
+            <th>Avg Concurrent</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr class="highlight-green"><td>0 — Only OTL that day</td><td>728,276</td><td>10.0%</td><td>0</td><td>✅ Pure reach failure</td></tr>
-          <tr class="highlight-green"><td>1–5</td><td>1,755,913</td><td>24.0%</td><td>2.6</td><td>✅ Low noise, reach failure</td></tr>
-          <tr><td>6–15</td><td>1,292,508</td><td>17.7%</td><td>9.7</td><td>Moderate</td></tr>
-          <tr><td>16–30</td><td>850,764</td><td>11.6%</td><td>22.1</td><td>Growing noise</td></tr>
-          <tr><td>31–50</td><td>567,917</td><td>7.8%</td><td>39.4</td><td>High volume</td></tr>
-          <tr class="highlight-coral"><td>51–100</td><td>667,989</td><td>9.1%</td><td>71.9</td><td>⚠️ Fatigue signal</td></tr>
-          <tr class="highlight-coral"><td>101+</td><td>1,446,176</td><td>19.8%</td><td>598.6</td><td>🔴 Super-liker fatigue</td></tr>
+          <tr class="highlight-green"><td>1 — Only OTL that day</td><td>477,839</td><td>382,351</td><td>80.0%</td><td>51,648</td><td>13.5%</td><td>1</td></tr>
+          <tr class="highlight-green"><td>2–5</td><td>456,325</td><td>398,732</td><td>87.4%</td><td>91,452</td><td>22.9%</td><td>2</td></tr>
+          <tr><td>6–15</td><td>171,683</td><td>165,468</td><td>96.4%</td><td>50,771</td><td>30.7%</td><td>8</td></tr>
+          <tr><td>16–30</td><td>46,943</td><td>46,551</td><td>99.2%</td><td>16,243</td><td>34.9%</td><td>21</td></tr>
+          <tr><td>31–50</td><td>16,920</td><td>16,871</td><td>99.7%</td><td>6,123</td><td>36.3%</td><td>38</td></tr>
+          <tr class="highlight-coral"><td>51–100</td><td>10,480</td><td>10,455</td><td>99.8%</td><td>3,849</td><td>36.8%</td><td>68</td></tr>
+          <tr class="highlight-coral"><td>101+</td><td>5,918</td><td>5,912</td><td>99.9%</td><td>2,343</td><td>39.6%</td><td>234</td></tr>
         </tbody>
       </table>
     </div>
     <div class="two-col" style="margin-top:1rem;">
-      <div class="callout green"><strong>34% (0–5 concurrent) = Pure reach failure</strong>These buyers had almost no competing OTLs. A push or badge would have worked. Highest ROI for any reach improvement.</div>
-      <div class="callout coral"><strong>20% (101+ concurrent, avg 598) = Fatigue</strong>Inbox is flooded. Reach fixes alone won't help — these super-likers need smarter targeting or volume caps.</div>
+      <div class="callout green">
+        <strong>78.8% of buyers had 1–5 concurrent OTLs = Pure reach failure</strong>
+        Most buyers (934K) had very few competing OTLs. Their offers expired not because of noise or fatigue — the channel simply never reached them. Highest ROI for any reach improvement.
+      </div>
+      <div class="callout coral">
+        <strong>16,398 buyers had 51+ concurrent OTLs = Fatigue signal</strong>
+        Expiry rate reaches 99.8–99.9%. Inbox is flooded (avg 68–234 OTLs). Even among these buyers, 36–40% are truly unaware — reach fixes alone won't help. These super-likers need smarter targeting or volume caps.
+      </div>
+    </div>
+
+    <!-- NEXT STEP NOTE -->
+    <div class="callout ice" style="margin-top:1rem;">
+      <strong>📌 Suggested Next Analysis: Are truly unaware buyers engaging with other offers they received?</strong>
+      Checking whether buyers in the truly unaware segment accept or respond to other concurrent OTLs in their inbox would reveal if the issue is <em>this specific offer</em> (pricing, item relevance, seller) or a <em>platform-wide disengagement</em> with the offer feature — and would directly determine whether the intervention should be reach-focused (get this offer in front of them) or relevance-focused (improve offer quality or targeting before reaching out).
     </div>
   </div>
 </section>
@@ -619,22 +660,54 @@
 <section id="funnel">
   <div class="section-card">
     <h2 class="section-title"><span class="icon">7</span>Two-Stage Conversion Funnel — All US OTLs</h2>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Entry Channel → Offer Detail Page → Order &nbsp;|&nbsp; Total US OTLs: 26,530,943 &nbsp;|&nbsp; Total Orders: 415,559 &nbsp;|&nbsp; Overall Rate: 1.57%</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">
+      Entry Channel → Offer Detail Page → Order &nbsp;|&nbsp; All US OTLs (all states), May 10–16 &nbsp;|&nbsp;
+      <strong>Total OTLs: 26,530,965</strong> &nbsp;|&nbsp; <strong>Total Orders: 422,855</strong> &nbsp;|&nbsp; <strong>Overall Rate: 1.59%</strong>
+      <br>Entry channels are mutually exclusive (priority order). The <strong>Overall</strong> row is the deduped total — each OTL counted exactly once.
+    </p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Entry Channel</th><th>Total OTLs</th><th>% Reached Offer Detail</th><th>Overall Order Rate</th><th>Order Rate at Decision Screen</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Entry Channel</th>
+            <th>Total OTLs</th>
+            <th>Reached Offer Detail</th>
+            <th>% Reached Detail</th>
+            <th>Total Orders</th>
+            <th>Overall Order Rate</th>
+            <th>Order Rate at Decision Screen</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>Push clicked</td><td>2,027,435</td><td>54.8%</td><td>3.24%</td><td>5.91%</td></tr>
-          <tr><td>News tab</td><td>2,416,131</td><td>34.9%</td><td>2.30%</td><td>6.59%</td></tr>
-          <tr class="highlight-coral"><td><strong>My offers (direct/proactive)</strong></td><td>2,010,801</td><td>28.7%</td><td><strong>3.48%</strong></td><td><strong>12.12%</strong></td></tr>
-          <tr><td>Push delivered, not clicked</td><td>6,818,024</td><td>23.4%</td><td>1.51%</td><td>6.46%</td></tr>
-          <tr><td>No awareness / other channels</td><td>13,258,552</td><td>12.4%</td><td>0.91%</td><td>7.40%</td></tr>
+          <tr class="highlight-total">
+            <td><strong>Overall (all OTLs — deduped)</strong></td>
+            <td><strong>26,530,965</strong></td>
+            <td><strong>5,451,268</strong></td>
+            <td><strong>20.55%</strong></td>
+            <td><strong>422,855</strong></td>
+            <td><strong>1.59%</strong></td>
+            <td><strong>7.76%</strong></td>
+          </tr>
+          <tr><td>Push clicked</td><td>2,027,436</td><td>1,091,619</td><td>53.84%</td><td>66,498</td><td>3.28%</td><td>6.09%</td></tr>
+          <tr><td>Push delivered, not clicked</td><td>6,818,032</td><td>1,501,371</td><td>22.02%</td><td>105,161</td><td>1.54%</td><td>7.00%</td></tr>
+          <tr class="highlight-coral"><td><strong>Listing detail page &nbsp;</strong><span style="font-size:11px;font-weight:400;">("View Offer" button visible)</span></td><td>3,351,089</td><td>1,558,650</td><td><strong>46.51%</strong></td><td>122,504</td><td><strong>3.66%</strong></td><td>7.86%</td></tr>
+          <tr><td>My offers page</td><td>2,505,470</td><td>468,329</td><td>18.69%</td><td>49,934</td><td>1.99%</td><td><strong>10.66%</strong></td></tr>
+          <tr><td>News tab</td><td>594,889</td><td>139,859</td><td>23.51%</td><td>11,243</td><td>1.89%</td><td>8.04%</td></tr>
+          <tr><td>Other sources &nbsp;<span style="font-size:11px;color:var(--muted);">(reached detail, untracked path)</span></td><td>691,440</td><td>691,440</td><td>100.00%</td><td>43,355</td><td>6.27%</td><td>6.27%</td></tr>
+          <tr class="highlight-navy"><td><strong>h. Truly Unaware</strong> &nbsp;<span style="font-size:11px;font-weight:400;color:var(--ice);">active buyers, expired OTLs, zero signal</span></td><td><strong>4,918,787</strong></td><td>0</td><td>0.00%</td><td>~11K</td><td>~0.23%</td><td>—</td></tr>
+          <tr><td>i. &nbsp;Not active during 24hr window</td><td>4,947,733</td><td>0</td><td>0.00%</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>j. &nbsp;Other OTL states, no signal &nbsp;<span style="font-size:11px;color:var(--muted);">(ordered/rejected/closed with no tracked path)</span></td><td>~676,089</td><td>0</td><td>0.00%</td><td>~13K</td><td>~1.9%</td><td>—</td></tr>
         </tbody>
       </table>
     </div>
     <div class="callout navy" style="margin-top:1rem;">
-      <strong>Key insight: The decision screen has ~6% conversion regardless of entry channel</strong>
-      Once a buyer reaches the Offer Detail Page (where they can accept, counter, or reject), they convert at 5.9%–7.4% regardless of how they got there. The "My Offers (direct)" outlier at 12.12% reflects buyers who proactively sought out their offers — the highest-intent segment. The lever is not the channel itself, but getting buyers TO the decision screen.
+      <strong>Three headline findings from the updated funnel</strong>
+      <br><br>
+      <strong>1. Listing detail page is the #2 channel by volume and #1 by overall order rate (3.66%)</strong> — Buyers who visit the listing page with an active OTL convert better than any other entry channel except "Other sources." The 46.51% reach rate to the decision screen (nearly matching push click at 53.84%) confirms the "View Offer" button is effective when buyers see it.
+      <br><br>
+      <strong>2. My offers page has the highest conversion at the decision screen (10.66%)</strong> — Buyers who proactively open their offers inbox and tap through to the offer detail are the most intentional buyers on the platform.
+      <br><br>
+      <strong>3. Truly Unaware buyers (4.92M active, expired OTLs) = 0.23% orders</strong> — These are active buyers on the platform during the offer window with zero awareness signal. The broader "no signal" bucket (10.5M) includes not-active buyers (4.95M) and non-expired OTLs (~676K). Fixing the reach gap for the 4.92M truly unaware active buyers is the highest-ROI intervention.
     </div>
   </div>
 </section>
@@ -683,53 +756,6 @@
   </div>
 </section>
 
-<!-- LISTING DETAIL PAGE -->
-<section id="listing">
-  <div class="section-card">
-    <h2 class="section-title"><span class="icon">9</span>Listing Detail Page — The Biggest Missed Surface</h2>
-
-    <div class="two-col" style="margin-bottom:1.5rem;align-items:start;">
-      <div>
-        <h3 style="margin-bottom:.8rem;">Table 3 — Listing Detail Views (24hr window)</h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Metric</th><th>Count</th><th>% of Truly Unaware</th></tr></thead>
-            <tbody>
-              <tr><td>Total truly unaware OTLs</td><td>7,309,543</td><td>100%</td></tr>
-              <tr class="highlight-coral"><td><strong>Viewed listing detail page (24hr)</strong></td><td><strong>941,471</strong></td><td><strong>12.9%</strong></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div>
-        <h3 style="margin-bottom:.8rem;">Table 4 — Listing Detail Views (7-day window)</h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Metric</th><th>Count</th><th>% of Truly Unaware</th></tr></thead>
-            <tbody>
-              <tr><td>Total truly unaware OTLs</td><td>7,309,543</td><td>100%</td></tr>
-              <tr class="highlight-coral"><td><strong>Viewed listing detail page (7-day)</strong></td><td><strong>1,024,083</strong></td><td><strong>14.0%</strong></td></tr>
-              <tr><td>Incremental days 2–7</td><td>82,612</td><td>1.1%</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="inline-stats">
-      <div class="inline-stat"><div class="n">941K</div><div class="l">On listing page (24hr)</div></div>
-      <div class="inline-stat"><div class="n">2.5×</div><div class="l">More than My Likes visitors</div></div>
-      <div class="inline-stat"><div class="n">92%</div><div class="l">Of views within first 24hrs</div></div>
-      <div class="inline-stat"><div class="n">~0%</div><div class="l">Bought same listing anyway</div></div>
-    </div>
-
-    <div class="callout navy" style="margin-top:1rem;">
-      <strong>941K buyers were on the listing page while an active OTL existed for them</strong>
-      They arrived via search, category browsing, social sharing, and other organic paths. They saw the full listing price and left — without ever knowing a discounted offer existed specifically for them. A simple banner — <em>"Active offer available: $199 → $165 (17% off)"</em> — would have caught them at peak intent, regardless of entry path.
-    </div>
-  </div>
-</section>
-
 <!-- PURCHASE BEHAVIOR -->
 <section id="purchase">
   <div class="section-card">
@@ -766,13 +792,26 @@
     <p style="color:var(--ice);font-size:14px;margin-bottom:1.5rem;">Two low-friction, non-intrusive surfaces — no new notifications, no additional OTL volume</p>
     <div class="two-col">
       <div class="rec-card">
-        <div class="rec-header"><span>1</span>Listing Detail Page Banner <span class="badge primary" style="margin-left:auto;">PRIMARY</span></div>
+        <div class="rec-header"><span>1</span>Show Offer Discount on Listing Detail Page <span class="badge primary" style="margin-left:auto;">PRIMARY</span></div>
+
+        <!-- Current vs Proposed UX comparison -->
+        <div style="background:var(--gray);border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:13px;">
+          <div style="margin-bottom:.6rem;font-weight:700;color:var(--navy);">Current UX</div>
+          <div style="color:#374151;">Listing page shows a plain <strong>"View Offer"</strong> button — buyer must tap it to see the offer price or discount. The discount is hidden behind an extra tap, reducing the chance that an intent shopper will act.</div>
+          <div style="margin-top:.8rem;margin-bottom:.4rem;font-weight:700;color:var(--coral);">Proposed UX</div>
+          <div style="color:#374151;">Surface the offer amount or discount <strong>directly on the listing detail page</strong>, visible without any click:
+            <ul style="padding-left:1.2rem;margin-top:.4rem;">
+              <li>Show <em>"$165 (17% off)"</em> alongside the listing price, or</li>
+              <li>Add a discount badge next to the "View Offer" button: <em>"View Offer — 17% off"</em></li>
+            </ul>
+          </div>
+        </div>
+
         <ul>
-          <li><strong>Audience:</strong> 941K buyers/week already on the listing page during active OTL window</li>
-          <li><strong>What:</strong> "Active offer available: $199 → $165 (17% off)" banner or callout at top of listing</li>
-          <li><strong>Why primary:</strong> 2.5× larger audience than My Likes; catches buyers from ALL entry paths — search, browse, social, direct</li>
-          <li><strong>Conversion at decision screen:</strong> ~6–12% (from funnel data)</li>
-          <li><strong>92%</strong> of listing views happen within the first 24hrs (offer active window)</li>
+          <li><strong>Why it works:</strong> 3,351,089 OTLs/week (May 10–16) had the buyer on the listing page — 46.51% of those reached the offer decision screen. Showing the discount immediately removes the friction of the extra tap for the remaining 53.49%.</li>
+          <li><strong>Data signal:</strong> 2,022,479 truly unaware buyers visited this listing during the active offer window but did not tap "View Offer" — the discount value was invisible to them</li>
+          <li><strong>Intent shoppers convert:</strong> Listing detail page entry has the highest overall order rate of any tracked channel — <strong>3.66%</strong> overall, <strong>7.86%</strong> at decision screen</li>
+          <li><strong>No new infrastructure needed:</strong> The OTL amount is already available when rendering the listing page for an eligible buyer</li>
         </ul>
         <div class="implied">💰 Implied additional orders: ~33K–56K/week</div>
       </div>
@@ -780,10 +819,10 @@
         <div class="rec-header"><span>2</span>My Likes Discount Badge <span class="badge secondary" style="margin-left:auto;">SECONDARY</span></div>
         <ul>
           <li><strong>Audience:</strong> 371K (24hr) to 893K (7d) buyers browsing their liked items</li>
-          <li><strong>What:</strong> Discount chip on listing card — "17% off" or "$165 offer available"</li>
-          <li><strong>Design precedent:</strong> NWT and SOLD OUT badges already exist in this card slot</li>
-          <li><strong>Catches buyers before</strong> they even need to click to the listing</li>
-          <li><strong>Post-expiry:</strong> Show expired badge to prompt "Make an offer" (111K post-expiry clickers/week)</li>
+          <li><strong>What:</strong> Discount chip on listing card in My Likes — <em>"17% off"</em> or <em>"$165 offer"</em> displayed directly on the listing thumbnail</li>
+          <li><strong>Design precedent:</strong> NWT and SOLD OUT badges already exist in this card slot — same placement, same pattern</li>
+          <li><strong>Key difference from listing page:</strong> Catches buyers <em>before</em> they even open the listing — the discount is visible while they browse their liked items</li>
+          <li><strong>Post-expiry:</strong> Show an expired-offer badge to prompt new offer initiation (111K post-expiry clickers/week)</li>
         </ul>
         <div class="implied">💰 Implied additional orders: ~12.5K/week + 2.6K post-expiry</div>
       </div>
